@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>오늘의 밥상</title>
+<style>
+  :root {
+    --bg: #f6ead6;
+    --wood: #8a4b2a;
+    --wood-dark: #6b3519;
+    --table: #c9763e;
+    --table-light: #e0975c;
+    --card: #fff8ec;
+    --ink: #4a2a16;
+    --red: #b8372b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 30%, #fbf1de, var(--bg));
+    font-family: "Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    color: var(--ink);
+    display: flex; flex-direction: column; align-items: center;
+    padding: 40px 16px 60px;
+  }
+  h1 { font-size: 2rem; letter-spacing: .1em; color: var(--wood-dark); margin-bottom: 6px; }
+  .sub { font-size: .95rem; color: #8b6a50; margin-bottom: 32px; }
+
+  .table {
+    width: min(620px, 94vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, var(--table-light), var(--table) 60%, var(--wood) 100%);
+    border: 10px solid var(--wood-dark);
+    box-shadow: 0 18px 40px rgba(80,40,10,.35), inset 0 0 40px rgba(60,25,5,.35);
+    display: flex; align-items: center; justify-content: center;
+    padding: 12%;
+  }
+  .dishes {
+    display: flex; flex-wrap: wrap; gap: clamp(6px, 2vw, 14px);
+    justify-content: center; align-content: center;
+  }
+  .card {
+    width: clamp(66px, 20vw, 110px);
+    background: var(--card);
+    border-radius: 18px;
+    padding: 14px 6px 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(60,25,5,.3);
+    border: 2px solid #f0d9b5;
+    transition: transform .2s;
+  }
+  .card:hover { transform: translateY(-4px) rotate(-1deg); }
+  .card .emoji { font-size: clamp(1.6rem, 7vw, 2.6rem); line-height: 1.1; }
+  .card .name { margin-top: 6px; font-weight: bold; font-size: clamp(.85rem, 3vw, 1.05rem); }
+  .card.main { border-color: var(--red); }
+
+  /* 반찬 목록: 아래 <ul id="banchan"> 에 <li> 한 줄씩 추가하세요 */
+  .hint { margin-top: 28px; font-size: .85rem; color: #8b6a50; }
+  #banchan { display: none; }
+</style>
+</head>
+<body>
+  <h1>오늘의 밥상</h1>
+  <p class="sub">따뜻한 한 끼, 맛있게 드세요</p>
+
+  <div class="table">
+    <div class="dishes" id="dishes">
+      <div class="card main"><div class="emoji">🍚</div><div class="name">밥</div></div>
+      <div class="card main"><div class="emoji">🍲</div><div class="name">국</div></div>
+      <div class="card main"><div class="emoji">🥬</div><div class="name">김치</div></div>
+    </div>
+  </div>
+
+  <!--
+    ★ 반찬 추가 방법 ★
+    아래 <ul> 안에 <li>이모지|이름</li> 형태로 한 줄씩 추가하세요.
+    추가한 반찬은 자동으로 밥상 위에 카드로 올라갑니다.
+    처음에는 주석 처리되어 있어서 밥, 국, 김치만 보입니다.
+    쓰려면 줄 앞뒤의 주석 표시를 지우세요.
+  -->
+  <ul id="banchan">
+    <li>🥚|계란말이</li>
+    <!-- <li>🐟|생선구이</li> -->
+    <!-- <li>🥒|오이무침</li> -->
+  </ul>
+
+  <p class="hint">반찬은 index.html 안의 &lt;ul id="banchan"&gt; 에 한 줄씩 추가할 수 있어요.</p>
+
+<script>
+  document.querySelectorAll('#banchan li').forEach(li => {
+    const [emoji, name] = li.textContent.split('|').map(s => s.trim());
+    if (!emoji || !name) return;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = '<div class="emoji"></div><div class="name"></div>';
+    card.querySelector('.emoji').textContent = emoji;
+    card.querySelector('.name').textContent = name;
+    document.getElementById('dishes').appendChild(card);
+  });
+</script>
+</body>
+</html>
